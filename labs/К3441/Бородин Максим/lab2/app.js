@@ -263,6 +263,54 @@ async function initProfile() {
       item.append(link);
       list.append(item);
     });
+    const published = recipes.filter((recipe) => recipe.userId === user.id);
+    const publishedList = $('#published-list');
+    const renderPublications = () => {
+      $('#published-count').textContent = String(published.length);
+      $('#published-empty').hidden = published.length !== 0;
+      publishedList.replaceChildren(...published.map((recipe) => {
+        const item = node('li', 'mb-2');
+        const link = node('a', '', recipe.title);
+        link.href = `recipe.html?id=${recipe.id}`;
+        item.append(link);
+        return item;
+      }));
+    };
+    renderPublications();
+    $('#publish-form').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const form = event.currentTarget;
+      const button = form.querySelector('button[type="submit"]');
+      const lines = (selector) => $(selector).value.split('\n').map((line) => line.trim()).filter(Boolean);
+      const ingredients = lines('#publish-ingredients');
+      const steps = lines('#publish-steps');
+      const message = $('#publish-status');
+      if (!ingredients.length || !steps.length) { message.textContent = 'Укажите ингредиенты и шаги приготовления.'; return; }
+      const description = $('#publish-description').value.trim();
+      const data = {
+        title: $('#publish-title').value.trim(),
+        type: $('#publish-type').value,
+        difficulty: $('#publish-difficulty').value,
+        minutes: Number($('#publish-minutes').value),
+        servings: 2,
+        description,
+        about: description,
+        ingredients,
+        steps,
+        author: freshUser.name || freshUser.email,
+        userId: user.id,
+        emoji: '🍲',
+      };
+      button.disabled = true;
+      try {
+        const created = await api.post('/recipes', data);
+        published.push(created);
+        renderPublications();
+        form.reset();
+        message.textContent = 'Рецепт опубликован и появился в каталоге.';
+      } catch (error) { message.textContent = error.message; }
+      finally { button.disabled = false; }
+    });
     status.hidden = true;
     $('#profile-content').hidden = false;
   } catch (error) {

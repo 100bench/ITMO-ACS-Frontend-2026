@@ -4,7 +4,7 @@ const db = require('../db.json');
 const routes = require('../routes.json');
 
 test('каждая карточка имеет отдельную полную страницу рецепта', () => {
-  assert.equal(db.recipes.length, 6);
+  assert.ok(db.recipes.length >= 6);
   assert.equal(new Set(db.recipes.map((recipe) => recipe.id)).size, db.recipes.length);
   for (const recipe of db.recipes) {
     assert.ok(Number.isInteger(recipe.id) && recipe.id > 0);
@@ -15,7 +15,7 @@ test('каждая карточка имеет отдельную полную �
 });
 
 test('данные доступны на чтение, действия требуют входа', () => {
-  assert.equal(routes.recipes, 444);
+  assert.equal(routes.recipes, 644);
   for (const name of ['favorites', 'likes', 'follows', 'comments']) assert.equal(routes[name], 644);
   assert.equal(routes.users, 600);
 });

@@ -13,6 +13,30 @@
   <nav class="site-nav" aria-label="Основная навигация"><div class="nav-links"><a class="nav-link" href="index.html">Рецепты</a><a class="nav-link" href="recipe.html?id=1">Рецепт дня</a><a class="nav-link" href="profile.html" aria-current="page"><svg class="icon" aria-hidden="true"><use href="assets/sprite.svg#user"></use></svg>Мой профиль</a></div>
   <div class="nav-actions"><button class="btn btn-outline-primary btn-sm" id="theme-button" type="button" aria-label="Включить тёмную тему"><svg class="icon" aria-hidden="true"><use href="assets/sprite.svg#moon"></use></svg><span>Тема</span></button><a class="nav-link" href="login.html">Войти</a><a class="btn btn-primary btn-sm" href="register.html">Регистрация</a></div></nav>
 </div></header>
-<main id="main"><div class="container"><header class="page-heading"><span class="eyebrow">Личный кабинет</span><h1>Моя кулинарная полка</h1><p id="profile-status" role="status" aria-live="polite">Загрузка профиля…</p></header><div id="profile-content" class="profile-layout" hidden><aside class="panel"><div class="avatar mb-3" id="profile-avatar" aria-hidden="true"></div><h2 class="h4" id="profile-name"></h2><p class="muted" id="profile-email"></p><button class="btn btn-outline-primary" id="logout-button" type="button">Выйти</button></aside><div><div class="stat-grid" aria-label="Статистика профиля"><div class="stat-card"><strong id="saved-count">0</strong><span>сохранённых рецептов</span></div><div class="stat-card"><strong id="following-count">0</strong><span>подписок</span></div></div><section class="content-card" aria-labelledby="saved-title"><h2 id="saved-title">Сохранённые рецепты</h2><p id="saved-empty">Пока ничего нет. Откройте рецепт и нажмите «Сохранить».</p><ul id="saved-list" class="list-unstyled"></ul></section></div></div></div></main>
+<main id="main"><div class="container">
+  <header class="page-heading"><span class="eyebrow">Личный кабинет</span><h1>Моя кулинарная полка</h1><p id="profile-status" role="status" aria-live="polite">Загрузка профиля…</p></header>
+  <div id="profile-content" class="profile-layout" hidden>
+    <aside class="panel"><div class="avatar mb-3" id="profile-avatar" aria-hidden="true"></div><h2 class="h4" id="profile-name"></h2><p class="muted" id="profile-email"></p><button class="btn btn-outline-primary" id="logout-button" type="button">Выйти</button></aside>
+    <div>
+      <div class="stat-grid" aria-label="Статистика профиля">
+        <div class="stat-card"><strong id="saved-count">0</strong><span>сохранённых рецептов</span></div>
+        <div class="stat-card"><strong id="following-count">0</strong><span>подписок</span></div>
+        <div class="stat-card"><strong id="published-count">0</strong><span>публикаций</span></div>
+      </div>
+      <section class="content-card" aria-labelledby="saved-title"><h2 id="saved-title">Сохранённые рецепты</h2><p id="saved-empty">Пока ничего нет. Откройте рецепт и нажмите «Сохранить».</p><ul id="saved-list" class="list-unstyled"></ul></section>
+      <section class="content-card" aria-labelledby="published-title"><h2 id="published-title">Мои публикации</h2><p id="published-empty">Вы ещё не опубликовали рецепты.</p><ul id="published-list" class="list-unstyled"></ul></section>
+      <section class="content-card" aria-labelledby="create-title"><h2 id="create-title">Опубликовать рецепт</h2>
+        <form id="publish-form">
+          <div class="mb-3"><label class="form-label" for="publish-title">Название</label><input class="form-control" id="publish-title" required maxlength="100"></div>
+          <div class="row g-3 mb-3"><div class="col-sm-5"><label class="form-label" for="publish-type">Тип блюда</label><select class="form-select" id="publish-type"><option value="завтрак">Завтрак</option><option value="основное">Основное</option><option value="салат">Салат</option><option value="десерт">Десерт</option></select></div><div class="col-sm-4"><label class="form-label" for="publish-difficulty">Сложность</label><select class="form-select" id="publish-difficulty"><option value="легко">Легко</option><option value="средне">Средне</option></select></div><div class="col-sm-3"><label class="form-label" for="publish-minutes">Минуты</label><input class="form-control" id="publish-minutes" type="number" min="1" value="20" required></div></div>
+          <div class="mb-3"><label class="form-label" for="publish-description">Описание</label><textarea class="form-control" id="publish-description" rows="2" required maxlength="500"></textarea></div>
+          <div class="mb-3"><label class="form-label" for="publish-ingredients">Ингредиенты - по одному на строке</label><textarea class="form-control" id="publish-ingredients" rows="3" required></textarea></div>
+          <div class="mb-3"><label class="form-label" for="publish-steps">Шаги - по одному на строке</label><textarea class="form-control" id="publish-steps" rows="3" required></textarea></div>
+          <button class="btn btn-primary" type="submit">Опубликовать</button><p id="publish-status" role="status" aria-live="polite" class="mt-2"></p>
+        </form>
+      </section>
+    </div>
+  </div>
+</div></main>
 <footer class="site-footer"><div class="container"><span>© 2026 Вкусно вместе</span><span>Учебный проект · Бородин Максим, К3441</span></div></footer>
 </body></html>
