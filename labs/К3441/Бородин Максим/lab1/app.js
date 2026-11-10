@@ -10,8 +10,48 @@ const read = (name, fallback) => {
 };
 const write = (name, value) => localStorage.setItem(key(name), JSON.stringify(value));
 
+const publications = () => read('publications', []);
+
 const filters = document.querySelector('#filters');
 if (filters) {
+  const grid = document.querySelector('#recipe-grid');
+  publications().forEach((post) => {
+    const card = document.createElement('article');
+    card.className = 'recipe-card';
+    card.dataset.type = post.type;
+    card.dataset.difficulty = post.difficulty;
+    card.dataset.ingredients = post.ingredients.join(' ').toLocaleLowerCase('ru');
+    card.dataset.search = post.title.toLocaleLowerCase('ru');
+    const image = document.createElement('div');
+    image.className = 'card-image snack';
+    image.setAttribute('role', 'img');
+    image.setAttribute('aria-label', 'Иллюстрация рецепта');
+    image.textContent = '🍲';
+    const content = document.createElement('div');
+    content.className = 'card-content';
+    const caption = document.createElement('span');
+    caption.className = 'eyebrow';
+    caption.textContent = `От автора ${post.authorName}`;
+    const title = document.createElement('h3');
+    title.textContent = post.title;
+    const description = document.createElement('p');
+    description.textContent = post.description;
+    const meta = document.createElement('div');
+    meta.className = 'card-meta';
+    [post.type, post.difficulty].forEach((value) => {
+      const tag = document.createElement('span');
+      tag.className = 'tag';
+      tag.textContent = value;
+      meta.append(tag);
+    });
+    const link = document.createElement('a');
+    link.className = 'card-link';
+    link.href = `recipe.html?id=${encodeURIComponent(post.id)}`;
+    link.textContent = 'Смотреть рецепт →';
+    content.append(caption, title, description, meta, link);
+    card.append(image, content);
+    grid.prepend(card);
+  });
   const cards = [...document.querySelectorAll('.recipe-card')];
   const count = document.querySelector('#result-count');
   const empty = document.querySelector('#empty-state');
@@ -73,7 +113,8 @@ if (registerForm) {
 
 const profileName = document.querySelector('#profile-name');
 if (profileName) {
-  const user = read('user', { name: 'Максим', email: 'Демонстрационный профиль' });
+  const signedIn = read('user', null);
+  const user = signedIn || { name: 'Гость', email: 'Войдите, чтобы публиковать рецепты' };
   profileName.textContent = user.name;
   document.querySelector('#profile-email').textContent = user.email;
   document.querySelector('#profile-avatar').textContent = user.name.charAt(0).toLocaleUpperCase('ru');
@@ -82,10 +123,92 @@ if (profileName) {
   document.querySelector('#following-count').textContent = read('following', false) ? '1' : '0';
   document.querySelector('#saved-empty').hidden = saved;
   document.querySelector('#saved-recipe').hidden = !saved;
-  document.querySelector('#logout-button').addEventListener('click', () => {
+  const logout = document.querySelector('#logout-button');
+  logout.hidden = !signedIn;
+  logout.addEventListener('click', () => {
     localStorage.removeItem(key('user'));
     location.href = 'login.html';
   });
+
+  const form = document.querySelector('#publish-form');
+  form.hidden = !signedIn;
+  document.querySelector('#publish-locked').hidden = Boolean(signedIn);
+  const renderPosts = () => {
+    const ownPosts = publications().filter((post) => signedIn && post.authorEmail === signedIn.email);
+    const list = document.querySelector('#posts-list');
+    list.replaceChildren();
+    ownPosts.forEach((post) => {
+      const item = document.createElement('li');
+      item.className = 'post-row';
+      const link = document.createElement('a');
+      link.href = `recipe.html?id=${encodeURIComponent(post.id)}`;
+      link.textContent = post.title;
+      link.className = 'fw-bold';
+      item.append(link);
+      list.append(item);
+    });
+    document.querySelector('#post-count').textContent = String(ownPosts.length);
+    document.querySelector('#posts-empty').hidden = ownPosts.length > 0;
+  };
+  renderPosts();
+  if (signedIn) form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const title = document.querySelector('#post-title').value.trim();
+    const type = document.querySelector('#post-type').value;
+    const difficulty = document.querySelector('#post-difficulty').value;
+    const description = document.querySelector('#post-description').value.trim();
+    const ingredients = document.querySelector('#post-ingredients').value.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
+    const steps = document.querySelector('#post-steps').value.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
+    const error = document.querySelector('#publish-error');
+    if (!title || !type || !difficulty || !description || !ingredients.length || !steps.length) {
+      error.textContent = 'Заполните все поля, указав хотя бы один ингредиент и шаг.';
+      error.hidden = false;
+      return;
+    }
+    error.hidden = true;
+    const posts = publications();
+    posts.push({ id: String(Date.now()), title, type, difficulty, description, ingredients, steps,
+      authorName: signedIn.name, authorEmail: signedIn.email });
+    write('publications', posts);
+    form.reset();
+    document.querySelector('#publish-status').textContent = 'Рецепт опубликован и появился в каталоге.';
+    renderPosts();
+  });
+}
+
+const recipeId = new URLSearchParams(location.search).get('id');
+if (recipeId && document.querySelector('#recipe-article')) {
+  const post = publications().find((item) => item.id === recipeId);
+  if (!post) {
+    document.querySelector('#recipe-article').hidden = true;
+    document.querySelector('#recipe-not-found').hidden = false;
+  } else {
+    document.title = `${post.title} — Вкусно вместе`;
+    document.querySelector('#recipe-eyebrow').textContent = `Рецепт от ${post.authorName}`;
+    document.querySelector('#recipe-title').textContent = post.title;
+    document.querySelector('#recipe-meta').textContent = `${post.type} · ${post.difficulty}`;
+    document.querySelector('#recipe-description').textContent = post.description;
+    document.querySelector('#recipe-author').textContent = post.authorName;
+    document.querySelector('#recipe-author-bio').textContent = 'Рецепт участника сообщества.';
+    document.querySelector('#recipe-servings').hidden = true;
+    document.querySelector('#recipe-photo').hidden = true;
+    document.querySelector('#published-hero').hidden = false;
+    document.querySelector('#recipe-actions').hidden = true;
+    document.querySelector('#video-section').hidden = true;
+    document.querySelector('#comments-section').hidden = true;
+    document.querySelector('#follow-button').hidden = true;
+    const renderList = (selector, values) => {
+      const list = document.querySelector(selector);
+      list.replaceChildren();
+      values.forEach((value) => {
+        const item = document.createElement('li');
+        item.textContent = value;
+        list.append(item);
+      });
+    };
+    renderList('#recipe-ingredients', post.ingredients);
+    renderList('#recipe-steps', post.steps);
+  }
 }
 
 function toggleButton(id, storageName, activeText, inactiveText) {

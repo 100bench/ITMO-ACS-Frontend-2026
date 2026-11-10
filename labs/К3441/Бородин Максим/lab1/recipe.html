@@ -28,29 +28,31 @@
       </div>
     </header>
     <main id="main">
-      <article>
+      <p id="recipe-not-found" class="container empty-state mt-4" hidden>Рецепт не найден. <a href="index.html">Вернуться в каталог</a>.</p>
+      <article id="recipe-article">
         <div class="container">
           <header class="recipe-hero">
             <a href="index.html">← Все рецепты</a>
-            <p class="eyebrow mt-3">Рецепт дня · основное блюдо</p>
-            <h1>Сливочная паста с томатами и базиликом</h1>
-            <p class="text-secondary">Ужин за 25 минут · 2 порции · легко</p>
-            <div class="d-flex gap-2 flex-wrap">
+            <p class="eyebrow mt-3" id="recipe-eyebrow">Рецепт дня · основное блюдо</p>
+            <h1 id="recipe-title">Сливочная паста с томатами и базиликом</h1>
+            <p class="text-secondary" id="recipe-meta">Ужин за 25 минут · 2 порции · легко</p>
+            <div class="d-flex gap-2 flex-wrap" id="recipe-actions">
               <button class="btn btn-primary" id="save-button" type="button" aria-pressed="false">Сохранить</button>
               <button class="btn btn-outline-primary" id="like-button" type="button" aria-pressed="false">Нравится · <span id="like-count">24</span>
               </button>
             </div>
           </header>
-          <img class="recipe-photo" src="assets/pasta.png" alt="Тарелка сливочной пасты с помидорами черри, базиликом и пармезаном" width="1536" height="1024">
+          <img id="recipe-photo" class="recipe-photo" src="assets/pasta.png" alt="Тарелка сливочной пасты с помидорами черри, базиликом и пармезаном" width="1536" height="1024">
+          <div id="published-hero" class="published-hero" role="img" aria-label="Иллюстрация опубликованного рецепта" hidden>🍲</div>
           <div class="recipe-layout">
             <div>
               <section aria-labelledby="about-title">
                 <h2 id="about-title">О рецепте</h2>
-                <p>Паста с томатами — лёгкий способ приготовить красивый ужин из знакомых продуктов. Пока варится паста, успеет приготовиться соус.</p>
+                <p id="recipe-description">Паста с томатами — лёгкий способ приготовить красивый ужин из знакомых продуктов. Пока варится паста, успеет приготовиться соус.</p>
               </section>
               <section class="mt-4" aria-labelledby="steps-title">
                 <h2 id="steps-title">Приготовление</h2>
-                <ol class="steps">
+                <ol class="steps" id="recipe-steps">
                   <li>
                     <strong>Подготовьте продукты.</strong> Вымойте томаты и базилик. Измельчите чеснок, натрите сыр.</li>
                   <li>
@@ -63,7 +65,7 @@
                     <strong>Подавайте.</strong> Добавьте базилик, пармезан и свежемолотый перец.</li>
                 </ol>
               </section>
-              <section class="mt-4" aria-labelledby="video-title">
+              <section class="mt-4" id="video-section" aria-labelledby="video-title">
                 <h2 id="video-title">Видео приготовления</h2>
                 <p class="text-secondary">Похожий способ приготовления томатной пасты.</p>
                 <div class="video-wrap">
@@ -72,7 +74,7 @@
                 </div>
                 <p class="small text-secondary mt-2">Видео размещено на YouTube; для просмотра нужен интернет.</p>
               </section>
-              <section class="mt-5" aria-labelledby="comments-title">
+              <section class="mt-5" id="comments-section" aria-labelledby="comments-title">
                 <h2 id="comments-title">Комментарии</h2>
                 <div id="comments-list" aria-live="polite">
                   <div class="comment">
@@ -90,8 +92,8 @@
             <aside>
               <div class="panel mb-3">
                 <h2 class="h4">Ингредиенты</h2>
-                <p class="text-secondary">На 2 порции</p>
-                <ul class="ingredients mb-0">
+                <p class="text-secondary" id="recipe-servings">На 2 порции</p>
+                <ul class="ingredients mb-0" id="recipe-ingredients">
                   <li>Паста — 200 г</li>
                   <li>Помидоры черри — 200 г</li>
                   <li>Сливки 20% — 100 мл</li>
@@ -103,8 +105,8 @@
               </div>
               <div class="panel">
                 <p class="eyebrow mb-2">Автор</p>
-                <h2 class="h4 mb-1">Мария Кухня</h2>
-                <p class="text-secondary">Готовлю просто и с удовольствием.</p>
+                <h2 class="h4 mb-1" id="recipe-author">Мария Кухня</h2>
+                <p class="text-secondary" id="recipe-author-bio">Готовлю просто и с удовольствием.</p>
                 <button class="btn btn-outline-primary" id="follow-button" type="button" aria-pressed="false">Подписаться</button>
               </div>
             </aside>

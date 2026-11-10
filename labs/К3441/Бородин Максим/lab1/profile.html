@@ -49,8 +49,8 @@
                 <span>сохранённых рецептов</span>
               </div>
               <div class="stat-card">
-                <strong>1</strong>
-                <span>публикация</span>
+                <strong id="post-count">0</strong>
+                <span>публикаций</span>
               </div>
               <div class="stat-card">
                 <strong id="following-count">0</strong>
@@ -70,8 +70,25 @@
             </section>
             <section class="content-card" aria-labelledby="posts-title">
               <h2 id="posts-title">Мои публикации</h2>
-              <p class="mb-1 fw-bold">Мой первый кулинарный блог</p>
-              <p class="text-secondary mb-0">Делюсь простыми идеями для ужина и любимыми продуктами.</p>
+              <p id="posts-empty" class="text-secondary mb-0">Вы пока не опубликовали ни одного рецепта.</p>
+              <ul id="posts-list" class="list-unstyled mb-0"></ul>
+            </section>
+            <section class="content-card" aria-labelledby="publish-title">
+              <h2 id="publish-title">Опубликовать рецепт</h2>
+              <p id="publish-locked">Чтобы опубликовать рецепт, <a href="login.html">войдите в профиль</a>.</p>
+              <form id="publish-form" hidden>
+                <div class="mb-3"><label class="form-label" for="post-title">Название</label><input class="form-control" id="post-title" maxlength="80" required></div>
+                <div class="row g-3 mb-3">
+                  <div class="col-sm-6"><label class="form-label" for="post-type">Тип блюда</label><select class="form-select" id="post-type" required><option value="">Выберите тип</option><option value="завтрак">Завтрак</option><option value="основное">Основное</option><option value="салат">Салат</option><option value="десерт">Десерт</option></select></div>
+                  <div class="col-sm-6"><label class="form-label" for="post-difficulty">Сложность</label><select class="form-select" id="post-difficulty" required><option value="">Выберите сложность</option><option value="легко">Легко</option><option value="средне">Средне</option></select></div>
+                </div>
+                <div class="mb-3"><label class="form-label" for="post-description">Описание</label><textarea class="form-control" id="post-description" rows="2" maxlength="500" required></textarea></div>
+                <div class="mb-3"><label class="form-label" for="post-ingredients">Ингредиенты</label><textarea class="form-control" id="post-ingredients" rows="4" required aria-describedby="post-ingredients-help"></textarea><div class="form-text" id="post-ingredients-help">Каждый ингредиент с новой строки.</div></div>
+                <div class="mb-3"><label class="form-label" for="post-steps">Шаги приготовления</label><textarea class="form-control" id="post-steps" rows="4" required aria-describedby="post-steps-help"></textarea><div class="form-text" id="post-steps-help">Каждый шаг с новой строки.</div></div>
+                <p id="publish-error" class="text-danger" role="alert" hidden></p>
+                <button class="btn btn-primary" type="submit">Опубликовать</button>
+                <p id="publish-status" class="text-success mt-2 mb-0" role="status"></p>
+              </form>
             </section>
           </div>
         </div>

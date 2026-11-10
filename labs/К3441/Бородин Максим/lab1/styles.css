@@ -96,3 +96,7 @@ h2 { font-size: clamp(1.65rem, 3vw, 2.35rem); font-weight: 750; }
 @media (max-width: 700px) { .hero-grid, .search-layout, .profile-layout { grid-template-columns: 1fr; } .hero { padding-top: 2.5rem; } .hero-art { max-width: 370px; } .panel { position: static; } .nav-wrap { align-items: flex-start; } .site-nav { flex-basis: 100%; } }
 @media (max-width: 520px) { .recipe-grid { grid-template-columns: 1fr; } .stat-grid { grid-template-columns: 1fr; } .card-image { height: 200px; } .section { padding-block: 2.5rem; } }
 [hidden] { display: none !important; }
+
+.post-row { padding: .8rem 0; border-top: 1px solid var(--line); }
+.post-row:first-child { border-top: 0; }
+.published-hero { display: grid; place-items: center; min-height: 280px; height: min(55vw, 520px); background: linear-gradient(135deg, #dcebd9, #f5e2bc); border-radius: 20px; font-size: clamp(6rem, 20vw, 12rem); }
