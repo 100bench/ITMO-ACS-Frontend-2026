@@ -30,7 +30,7 @@ img { max-width: 100%; }
 .btn-primary { background: var(--green); border-color: var(--green); color: var(--button-ink); }
 .btn-primary:hover, .btn-primary:focus { background: var(--green-dark); border-color: var(--green-dark); }
 .btn-outline-primary { color: var(--green); border-color: var(--green); }
-.btn-outline-primary:hover, .btn-outline-primary:focus { background: var(--green); border-color: var(--green); }
+.btn-outline-primary:hover, .btn-outline-primary:focus { background: var(--green); border-color: var(--green); color: var(--button-ink); }
 .btn { border-radius: 10px; font-weight: 650; }
 .hero { padding: 4.5rem 0 3rem; background: radial-gradient(circle at 85% 25%, #e2edcf, transparent 32%), linear-gradient(125deg, #f5f0df, #faf8f2 65%); }
 .hero-grid { display: grid; grid-template-columns: 1.25fr .75fr; align-items: center; gap: 2rem; }
